@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ismail Salah | Data Engineering Specialist & CS Student</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#0a0c10',
+                        slateDark: '#12161f',
+                        glassDark: 'rgba(18, 22, 31, 0.75)',
+                        neonCyan: '#00f3ff',
+                        neonTeal: '#00e5a3',
+                        neonBlue: '#3b82f6',
+                        warmAmber: '#ffb703',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 20px rgba(0, 243, 255, 0.25)',
+                        'neon-teal': '0 0 20px rgba(0, 229, 163, 0.25)',
+                        'glass-3d': '0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Vanilla Tilt JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <style>
+        body {
+            background-color: #0a0c10;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-card {
+            background: rgba(18, 22, 31, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 243, 255, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(0, 243, 255, 0.3);
+        }
+
+        .glass-nav {
+            background: rgba(10, 12, 16, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0c10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f3ff;
+        }
+
+        /* Text Gradient Glow */
+        .text-gradient {
+            background: linear-gradient(135deg, #00f3ff 0%, #00e5a3 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Grid Background Pattern Overlay */
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(0, 243, 255, 0.08) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Glowing Pulse Animation */
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+        .glow-orb {
+            animation: subtlePulse 8s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="relative bg-obsidian text-slate-200 selection:bg-neonCyan selection:text-obsidian">
+
+    <!-- Canvas 3D Particle Background -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"></canvas>
+
+    <!-- Background Glow Orbs -->
+    <div class="fixed top-1/4 left-1/4 w-96 h-96 bg-neonCyan/10 rounded-full blur-3xl glow-orb -z-10 pointer-events-none"></div>
+    <div class="fixed bottom-1/4 right-1/4 w-96 h-96 bg-neonTeal/10 rounded-full blur-3xl glow-orb -z-10 pointer-events-none" style="animation-delay: 4s;"></div>
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-neonCyan to-neonTeal p-[1px] flex items-center justify-center shadow-neon-cyan">
+                    <div class="w-full h-full bg-obsidian rounded-[7px] flex items-center justify-center group-hover:bg-transparent transition-colors">
+                        <span class="font-mono font-bold text-neonCyan group-hover:text-obsidian text-lg">IS</span>
+                    </div>
+                </div>
+                <span class="font-mono font-bold text-lg tracking-wider text-white">ISMAIL<span class="text-neonCyan">.DATA</span></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 font-mono text-sm">
+                <a href="#about" class="hover:text-neonCyan transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-neonCyan hover:after:w-full after:transition-all">01. About</a>
+                <a href="#skills" class="hover:text-neonCyan transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-neonCyan hover:after:w-full after:transition-all">02. Skills</a>
+                <a href="#projects" class="hover:text-neonCyan transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-neonCyan hover:after:w-full after:transition-all">03. Projects</a>
+                <a href="#education" class="hover:text-neonCyan transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-neonCyan hover:after:w-full after:transition-all">04. Journey</a>
+                <a href="#contact" class="px-4 py-2 rounded-md border border-neonCyan/40 text-neonCyan hover:bg-neonCyan/10 transition-all shadow-sm hover:shadow-neon-cyan">Contact Me</a>
+            </nav>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="menu-btn" class="md:hidden text-slate-300 hover:text-neonCyan text-xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-card border-x-0 border-t-0 border-b border-slate-800 px-6 py-6 flex-col gap-4 font-mono text-sm">
+            <a href="#about" class="mobile-link hover:text-neonCyan">01. About</a>
+            <a href="#skills" class="mobile-link hover:text-neonCyan">02. Skills</a>
+            <a href="#projects" class="mobile-link hover:text-neonCyan">03. Projects</a>
+            <a href="#education" class="mobile-link hover:text-neonCyan">04. Journey</a>
+            <a href="#contact" class="mobile-link text-neonCyan">Contact Me</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pt-32 pb-20 space-y-36 bg-grid-pattern">
+
+        <!-- 1. HERO HEADER SECTION -->
+        <section class="min-h-[80vh] flex flex-col justify-center items-start relative pt-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-neonCyan/30 bg-neonCyan/5 text-neonCyan font-mono text-xs mb-6 tracking-wide shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-neonTeal animate-ping"></span>
+                <span>DATA ENGINEERING & ARCHITECTURE</span>
+            </div>
+
+            <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white mb-4">
+                Ismail Salah<span class="text-neonCyan">.</span>
+            </h1>
+
+            <h2 class="text-2xl sm:text-4xl font-semibold text-slate-400 mb-6 font-mono">
+                Building <span class="text-gradient">Automated Data Pipelines</span> & Pipelines Architectures.
+            </h2>
+
+            <p class="max-w-2xl text-slate-400 text-base sm:text-lg leading-relaxed mb-10">
+                Data Engineering Specialist & Computer Science student at Suez Canal University. Specialized in building end-to-end scalable ETL workflows, data warehouses, and modern cloud analytics architectures.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#projects" class="px-7 py-3.5 rounded-lg bg-gradient-to-r from-neonCyan to-neonTeal text-obsidian font-semibold font-mono hover:opacity-90 transition-all transform hover:-translate-y-1 shadow-neon-cyan flex items-center gap-2">
+                    <span>View Projects</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+
+                <a href="#contact" class="px-7 py-3.5 rounded-lg glass-card text-slate-200 font-mono font-medium hover:border-neonCyan/60 transition-all transform hover:-translate-y-1 flex items-center gap-2">
+                    <i class="fa-solid fa-envelope text-neonCyan"></i>
+                    <span>Contact Me</span>
+                </a>
+
+                <div class="flex items-center gap-3 ml-2">
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-lg glass-card flex items-center justify-center text-slate-400 hover:text-neonCyan hover:border-neonCyan transition-all" title="GitHub Profile">
+                        <i class="fa-brands fa-github text-lg"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-lg glass-card flex items-center justify-center text-slate-400 hover:text-neonCyan hover:border-neonCyan transition-all" title="LinkedIn Profile">
+                        <i class="fa-brands fa-linkedin-in text-lg"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats Floating Banner -->
+            <div class="w-full grid grid-cols-2 sm:grid-cols-4 gap-4 mt-16 pt-8 border-t border-slate-800/80">
+                <div class="glass-card p-4 rounded-xl" data-tilt data-tilt-max="10">
+                    <div class="text-xs font-mono text-slate-400">PIPELINE STATUS</div>
+                    <div class="text-xl font-bold font-mono text-neonTeal mt-1 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-xs"></i> 99.9% Uptime
+                    </div>
+                </div>
+                <div class="glass-card p-4 rounded-xl" data-tilt data-tilt-max="10">
+                    <div class="text-xs font-mono text-slate-400">CORE FOCUS</div>
+                    <div class="text-xl font-bold font-mono text-neonCyan mt-1">ETL / ELT & dbt</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl" data-tilt data-tilt-max="10">
+                    <div class="text-xs font-mono text-slate-400">ACADEMIC LEVEL</div>
+                    <div class="text-xl font-bold font-mono text-white mt-1">3rd Year CS Student</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl" data-tilt data-tilt-max="10">
+                    <div class="text-xs font-mono text-slate-400">LOCATION</div>
+                    <div class="text-xl font-bold font-mono text-warmAmber mt-1">Ismailia, Egypt</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ABOUT ME SECTION -->
+        <section id="about" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-10">
+                <span class="font-mono text-neonCyan text-lg">01.</span>
+                <h2 class="text-3xl font-bold text-white tracking-wide">About Me</h2>
+                <div class="h-[1px] bg-slate-800 flex-1 max-w-xs"></div>
+            </div>
+
+            <div class="grid md:grid-cols-12 gap-8 items-center">
+                <!-- Text Container -->
+                <div class="md:col-span-7 space-y-4 text-slate-300 leading-relaxed">
+                    <p class="glass-card p-6 rounded-2xl border-l-4 border-l-neonCyan">
+                        I am a 3rd-year <strong class="text-white">Computer Science Student at Suez Canal University</strong> with a deep specialization and passion for <strong class="text-neonCyan">Data Engineering</strong>. My focus lies in designing, building, and maintaining automated data pipelines that turn fragmented raw data into reliable datasets ready for analytics and machine learning models.
+                    </p>
+                    <p class="px-2">
+                        Through rigorous training programs—including the global <strong class="text-white">Matsuo-Iwasawa Laboratory program at The University of Tokyo</strong> and hands-on cybersecurity analytics internships—I have honed a multi-disciplinary approach to data pipelines, prioritizing data integrity, modular SQL modeling, security, and peak performance.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-4 font-mono text-xs text-slate-400">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-angle-right text-neonCyan"></i>
+                            <span>Data Transformation (dbt)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-angle-right text-neonCyan"></i>
+                            <span>Relational & NoSQL Warehouses</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-angle-right text-neonCyan"></i>
+                            <span>Automated Web Scraping</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-angle-right text-neonCyan"></i>
+                            <span>Cybersecurity & Threat Analytics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3D Decorative Terminal Card -->
+                <div class="md:col-span-5">
+                    <div class="glass-card p-6 rounded-2xl relative overflow-hidden font-mono text-xs" data-tilt data-tilt-glare data-tilt-max-glare="0.2">
+                        <!-- Terminal Header -->
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+                            </div>
+                            <span class="text-slate-500">pipeline_config.json</span>
+                        </div>
+                        <!-- Terminal Code Snippet -->
+                        <div class="space-y-2 text-slate-300">
+                            <div><span class="text-neonCyan">const</span> engineer = {</div>
+                            <div class="pl-4">name: <span class="text-neonTeal">'Ismail Salah'</span>,</div>
+                            <div class="pl-4">role: <span class="text-neonTeal">'Data Engineering Specialist'</span>,</div>
+                            <div class="pl-4">university: <span class="text-neonTeal">'Suez Canal University'</span>,</div>
+                            <div class="pl-4">skills: [<span class="text-warmAmber">'Python'</span>, <span class="text-warmAmber">'SQL'</span>, <span class="text-warmAmber">'dbt'</span>, <span class="text-warmAmber">'PostgreSQL'</span>],</div>
+                            <div class="pl-4">status: <span class="text-neonCyan">'Automating Workflows...'</span></div>
+                            <div>};</div>
+                            <div class="pt-2 text-slate-500">// Executing data validation check</div>
+                            <div class="text-neonTeal"><i class="fa-solid fa-check"></i> Pipeline checks passed (100%)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. TECHNICAL SKILLS SECTION -->
+        <section id="skills" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-10">
+                <span class="font-mono text-neonCyan text-lg">02.</span>
+                <h2 class="text-3xl font-bold text-white tracking-wide">Technical Skills</h2>
+                <div class="h-[1px] bg-slate-800 flex-1 max-w-xs"></div>
+            </div>
+
+            <!-- 3D Glass Cards Stack -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Category 1 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between" data-tilt data-tilt-max="12">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-neonCyan/10 border border-neonCyan/30 flex items-center justify-center text-neonCyan mb-6 text-xl">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Languages</h3>
+                        <ul class="space-y-3 font-mono text-sm text-slate-300">
+                            <li class="flex items-center justify-between">
+                                <span>Python</span>
+                                <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-neonCyan">Advanced</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>SQL</span>
+                                <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-neonCyan">Advanced</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>C#</span>
+                                <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Core</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs font-mono text-slate-500">Data scripting & OOP</div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between" data-tilt data-tilt-max="12">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-neonTeal/10 border border-neonTeal/30 flex items-center justify-center text-neonTeal mb-6 text-xl">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Data Engineering</h3>
+                        <ul class="space-y-3 font-mono text-sm text-slate-300">
+                            <li class="flex items-center justify-between">
+                                <span>dbt (data build tool)</span>
+                                <i class="fa-solid fa-check text-neonTeal text-xs"></i>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>ETL / ELT Pipelines</span>
+                                <i class="fa-solid fa-check text-neonTeal text-xs"></i>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>DuckDB</span>
+                                <i class="fa-solid fa-check text-neonTeal text-xs"></i>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>Web Scraping</span>
+                                <i class="fa-solid fa-check text-neonTeal text-xs"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs font-mono text-slate-500">Transformations & Analytics</div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between" data-tilt data-tilt-max="12">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-neonBlue/10 border border-neonBlue/30 flex items-center justify-center text-neonBlue mb-6 text-xl">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Databases</h3>
+                        <ul class="space-y-3 font-mono text-sm text-slate-300">
+                            <li class="flex items-center justify-between">
+                                <span>PostgreSQL</span>
+                                <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-neonBlue">Primary</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>MySQL</span>
+                                <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Relational</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>MongoDB</span>
+                                <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">NoSQL</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs font-mono text-slate-500">Architecture & Schemas</div>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between" data-tilt data-tilt-max="12">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-warmAmber/10 border border-warmAmber/30 flex items-center justify-center text-warmAmber mb-6 text-xl">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Stack & Tools</h3>
+                        <ul class="space-y-3 font-mono text-sm text-slate-300">
+                            <li class="flex items-center justify-between">
+                                <span>Linux (Kali)</span>
+                                <i class="fa-solid fa-check text-warmAmber text-xs"></i>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>Git & GitHub</span>
+                                <i class="fa-solid fa-check text-warmAmber text-xs"></i>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>HTML5 / Tailwind</span>
+                                <i class="fa-solid fa-check text-warmAmber text-xs"></i>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>JavaScript</span>
+                                <i class="fa-solid fa-check text-warmAmber text-xs"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800/80 text-xs font-mono text-slate-500">Development Environments</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. FEATURED PROJECTS SECTION -->
+        <section id="projects" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-10">
+                <span class="font-mono text-neonCyan text-lg">03.</span>
+                <h2 class="text-3xl font-bold text-white tracking-wide">Featured Projects</h2>
+                <div class="h-[1px] bg-slate-800 flex-1 max-w-xs"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Project Card 1 -->
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-tilt data-tilt-max="8">
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-10 h-10 rounded-lg bg-neonCyan/10 flex items-center justify-center text-neonCyan">
+                                <i class="fa-solid fa-network-wired text-lg"></i>
+                            </div>
+                            <span class="text-xs font-mono text-neonTeal px-2.5 py-1 rounded-full border border-neonTeal/30 bg-neonTeal/5">
+                                Featured Architecture
+                            </span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white group-hover:text-neonCyan transition-colors">
+                            End-to-End E-Commerce Analytics Platform
+                        </h3>
+
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            A production-grade automated data pipeline performing extractions, automated transformations, and reliable warehouse loading for real-time sales and customer analytics.
+                        </p>
+
+                        <div class="text-xs font-mono text-slate-300">
+                            <strong class="text-slate-400">Role:</strong> Orchestration & Integration Lead
+                        </div>
+
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-neonCyan">Python</span>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-neonCyan">PostgreSQL</span>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-neonCyan">dbt</span>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-neonCyan">ETL Orchestration</span>
+                        </div>
+                    </div>
+
+                    <div class="px-6 py-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
+                        <span class="text-slate-500">Pipeline Pipeline Engine</span>
+                        <a href="https://github.com" target="_blank" class="text-neonCyan hover:underline flex items-center gap-1">
+                            <span>GitHub Code</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-tilt data-tilt-max="8">
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-10 h-10 rounded-lg bg-neonTeal/10 flex items-center justify-center text-neonTeal">
+                                <i class="fa-solid fa-cubes text-lg"></i>
+                            </div>
+                            <span class="text-xs font-mono text-slate-400">Data Transformation</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white group-hover:text-neonTeal transition-colors">
+                            dbt Data Transformation Pipeline
+                        </h3>
+
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Production-grade data transformation layer connected to a local PostgreSQL instance. Implements modular SQL data modeling, data quality testing, and version-controlled transformations.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2 pt-4">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-neonTeal">dbt</span>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-neonTeal">PostgreSQL</span>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-neonTeal">SQL Modeling</span>
+                        </div>
+                    </div>
+
+                    <div class="px-6 py-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
+                        <span class="text-slate-500">Data Modeling Layer</span>
+                        <a href="https://github.com" target="_blank" class="text-neonTeal hover:underline flex items-center gap-1">
+                            <span>GitHub Code</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-tilt data-tilt-max="8">
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-10 h-10 rounded-lg bg-warmAmber/10 flex items-center justify-center text-warmAmber">
+                                <i class="fa-solid fa-shield-halved text-lg"></i>
+                            </div>
+                            <span class="text-xs font-mono text-slate-400">Web App & Security</span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white group-hover:text-warmAmber transition-colors">
+                            Password Strength Evaluator App
+                        </h3>
+
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Interactive web app evaluating password entropy, cryptographic vulnerability detection, and offering real-time feedback for cybersecurity hygiene.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2 pt-4">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-warmAmber">HTML5</span>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-warmAmber">Tailwind CSS</span>
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800/80 text-warmAmber">JavaScript</span>
+                        </div>
+                    </div>
+
+                    <div class="px-6 py-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
+                        <span class="text-slate-500">Client-side Tool</span>
+                        <a href="https://github.com" target="_blank" class="text-warmAmber hover:underline flex items-center gap-1">
+                            <span>GitHub Code</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. EDUCATION & JOURNEY SECTION -->
+        <section id="education" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-10">
+                <span class="font-mono text-neonCyan text-lg">04.</span>
+                <h2 class="text-3xl font-bold text-white tracking-wide">Education & Qualifications</h2>
+                <div class="h-[1px] bg-slate-800 flex-1 max-w-xs"></div>
+            </div>
+
+            <!-- Timeline Structure -->
+            <div class="relative border-l-2 border-slate-800 ml-4 md:ml-32 space-y-12">
+                <!-- Node 1 -->
+                <div class="relative pl-8 group">
+                    <!-- Timeline Node Icon -->
+                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-obsidian border-2 border-neonCyan flex items-center justify-center text-neonCyan group-hover:scale-110 transition-transform shadow-neon-cyan">
+                        <i class="fa-solid fa-graduation-cap text-xs"></i>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <h3 class="text-lg font-bold text-white">B.Sc. in Computer Science</h3>
+                            <span class="font-mono text-xs text-neonCyan px-2.5 py-1 rounded bg-neonCyan/10 border border-neonCyan/20">3rd Year (Expected 2028)</span>
+                        </div>
+                        <div class="text-sm font-semibold text-slate-400 mb-3">Suez Canal University</div>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Focusing on Data Structures, Algorithms, Database Management Systems, Software Engineering, and High-Performance Computing architectures.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Node 2 -->
+                <div class="relative pl-8 group">
+                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-obsidian border-2 border-neonTeal flex items-center justify-center text-neonTeal group-hover:scale-110 transition-transform shadow-neon-teal">
+                        <i class="fa-solid fa-brain text-xs"></i>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <h3 class="text-lg font-bold text-white">Global Consumer Intelligence World Program</h3>
+                            <span class="font-mono text-xs text-neonTeal px-2.5 py-1 rounded bg-neonTeal/10 border border-neonTeal/20">Global Program</span>
+                        </div>
+                        <div class="text-sm font-semibold text-slate-400 mb-3">Matsuo-Iwasawa Laboratory, The University of Tokyo</div>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            International training focusing on Artificial Intelligence, advanced Data Analytics, and large-scale data modeling techniques hosted by top researchers in Japan.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Node 3 -->
+                <div class="relative pl-8 group">
+                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-obsidian border-2 border-neonBlue flex items-center justify-center text-neonBlue group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-rocket text-xs"></i>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <h3 class="text-lg font-bold text-white">Creativa Career Accelerator & DEPI</h3>
+                            <span class="font-mono text-xs text-slate-400 px-2.5 py-1 rounded bg-slate-800">TIEC / ITIDA Initiative</span>
+                        </div>
+                        <div class="text-sm font-semibold text-slate-400 mb-3">Digital Egypt Pioneers Initiative</div>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Intensive technical acceleration program for high-performing tech talents, refining software engineering, team collaboration, and data engineering practical skills.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Node 4 -->
+                <div class="relative pl-8 group">
+                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-obsidian border-2 border-warmAmber flex items-center justify-center text-warmAmber group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-user-shield text-xs"></i>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <h3 class="text-lg font-bold text-white">Cybersecurity Analyst Virtual Internship</h3>
+                            <span class="font-mono text-xs text-slate-400 px-2.5 py-1 rounded bg-slate-800">Virtual Internship</span>
+                        </div>
+                        <div class="text-sm font-semibold text-slate-400 mb-3">DecodeLabs</div>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Gained practical experience in network traffic inspection, threat analytics, and system vulnerability assessment using tools like Burp Suite and Kali Linux.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CONTACT SECTION -->
+        <section id="contact" class="scroll-mt-28">
+            <div class="glass-card p-10 md:p-16 rounded-3xl text-center max-w-4xl mx-auto relative overflow-hidden" data-tilt data-tilt-max="5">
+                <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-neonCyan/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                <span class="font-mono text-neonCyan text-sm tracking-widest uppercase">Get In Touch</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-2 mb-6">Let's Build Robust Data Systems Together</h2>
+
+                <p class="text-slate-300 max-w-xl mx-auto text-base leading-relaxed mb-10">
+                    Whether you have an open Data Engineering role, a data pipeline challenge, or want to collaborate on innovative projects, feel free to reach out!
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="mailto:ismail.salah@example.com" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-neonCyan to-neonTeal text-obsidian font-mono font-bold hover:opacity-90 transition-all shadow-neon-cyan flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>Send Email Direct</span>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card text-white font-mono font-semibold hover:border-neonCyan transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-linkedin text-neonCyan"></i>
+                        <span>Connect on LinkedIn</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 py-8 text-center font-mono text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                Designed & Built by <span class="text-white">Ismail Salah</span> &copy; 2026
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="https://github.com" target="_blank" class="hover:text-neonCyan transition-colors">GitHub</a>
+                <a href="https://linkedin.com" target="_blank" class="hover:text-neonCyan transition-colors">LinkedIn</a>
+                <a href="#about" class="hover:text-neonCyan transition-colors">Back to Top</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Three.js Animated Dynamic Background Script -->
+    <script>
+        // 1. Initialize Three.js Scene for Cyber Particle Mesh
+        const canvas = document.getElementById('bg-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Create Particles
+        const particlesCount = 700;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i=0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 15;
+        }
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+        // Particle Styling (Neon Teal / Cyan Grid feel)
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.025,
+            color: 0x00f3ff,
+            transparent: true,
+            opacity: 0.5,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 3;
+
+        // Mouse Interactivity
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) - 0.5;
+            mouseY = (event.clientY / window.innerHeight) - 0.5;
+        });
+
+        // Window Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            // Rotate particles slowly
+            particlesMesh.rotation.y = elapsedTime * 0.05;
+            particlesMesh.rotation.x = -mouseY * 0.2;
+            particlesMesh.rotation.y += mouseX * 0.2;
+
+            renderer.render(scene, camera);
+        }
+
+        // Start animation once window loads
+        window.onload = function() {
+            animate();
+            
+            // Initialize Vanilla Tilt JS
+            if (typeof VanillaTilt !== 'undefined') {
+                VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+                    max: 15,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.15,
+                });
+            }
+        };
+
+        // Mobile Nav Toggle Script
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+            });
+        });
+    </script>
+</body>
+</html>
